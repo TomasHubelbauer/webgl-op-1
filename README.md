@@ -10,6 +10,7 @@ practice WebGL programming in a goal-driven way.
 - Create a scene with an cube with a recession in one of its faces whose rect is
   a different color (more complex tesselation topology and color mapping in
     preparation for the keyboard recession work)
+- Create a scene with a WebGL portal in it (does WebGL support non-Euclidean?)
 - Figure out how to allow rotating using the mouse and scaling using the wheel
   - https://www.tutorialspoint.com/webgl/webgl_interactive_cube.htm
 - Make the cube roughly OP-1 sized and add rounded corners to it
