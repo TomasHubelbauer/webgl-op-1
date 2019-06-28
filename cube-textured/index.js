@@ -1,10 +1,26 @@
 import tesselateCube from '../tesselateCube.js';
 import { white, red, green, blue, yellow, purple } from '../colors.js';
 
-export default async function renderCubeScene(/** @type {WebGLRenderingContext} */ context) {
+export default async function renderCubeTexturedScene(/** @type {WebGLRenderingContext} */ context) {
   const vertexPromise = fetch('cube/vertex.glsl').then(response => response.text());
   const fragmentPromise = fetch('cube/fragment.glsl').then(response => response.text());
   const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
+
+  const textureCanvas = document.createElement('canvas');
+  textureCanvas.width = 256;
+  textureCanvas.height = 256;
+  const textureContext = textureCanvas.getContext('2d');
+  for (let x = 0; x < textureCanvas.width / 8; x++) {
+    for (let y = 0; y < textureCanvas.height / 8; y++) {
+      textureContext.fillStyle = x % 2 === 0 ^ y % 2 === 0 ? 'silver' : 'white';
+      textureContext.fillRect(x * 8, y * 8, 8, 8);
+    }
+  }
+
+  const texture = context.createTexture();
+  context.bindTexture(context.TEXTURE_2D, texture);
+  context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, textureCanvas);
+  context.generateMipmap(context.TEXTURE_2D); // Only works for textures with size of power of two
 
   const vertexShader = context.createShader(context.VERTEX_SHADER);
   context.shaderSource(vertexShader, vertexSource);
