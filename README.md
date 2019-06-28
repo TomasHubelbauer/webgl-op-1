@@ -3,8 +3,7 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
-- Backup the current render method and render a cube in the clone
-  - https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Creating_3D_objects_using_WebGL
+- https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Creating_3D_objects_using_WebGL
 - Figure out how to allow rotating using the mouse and scaling using the wheel
   - https://www.tutorialspoint.com/webgl/webgl_interactive_cube.htm
 - Make the cube roughly OP-1 sized and add rounded corners to it
@@ -31,7 +30,8 @@ practice WebGL programming in a goal-driven way.
   - Not sure if the OP-1 can receive MIDI as input so that the note would play
     through it and not the browser, but the keyboard might be able to do this
 - Add an OP-1 favicon for the site
-- Resize the canvas with the viewport size changes
+- Figure out why the rendering breaks when window resizes even though the context
+  gets refreshed
 - Replace the matrix libray with in-tree routines to keep the thing flat and
   straightforward to read and understand
 - Find out what `vertexAttribPointer`'s `normalize` argument is for (clamping?)

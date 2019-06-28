@@ -1,8 +1,8 @@
-import tesselateSquare from './tesselateSquare.js';
+import tesselateSquare from '../tesselateSquare.js';
 
-export default async function renderSquare(/** @type {WebGLRenderingContext} */ context) {
-  const vertexPromise = fetch('shaders/vertex.glsl').then(response => response.text());
-  const fragmentPromise = fetch('shaders/fragment.glsl').then(response => response.text());
+export default async function renderSquareScene(/** @type {WebGLRenderingContext} */ context) {
+  const vertexPromise = fetch('square/vertex.glsl').then(response => response.text());
+  const fragmentPromise = fetch('square/fragment.glsl').then(response => response.text());
   const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
 
   const vertexShader = context.createShader(context.VERTEX_SHADER);
