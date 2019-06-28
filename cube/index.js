@@ -1,4 +1,4 @@
-import tesselateSquare from '../tesselateSquare.js';
+import tesselateCube from '../tesselateCube.js';
 import { white, red, green, blue, yellow, purple } from '../colors.js';
 
 export default async function renderSquare(/** @type {WebGLRenderingContext} */ context) {
@@ -36,6 +36,40 @@ export default async function renderSquare(/** @type {WebGLRenderingContext} */ 
   const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
   const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
 
+  const positionBuffer = context.createBuffer();
+  context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateCube()), context.STATIC_DRAW);
+
+  const colorBuffer = context.createBuffer();
+  context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+  context.bufferData(
+    context.ARRAY_BUFFER,
+    new Float32Array([
+      ...white, ...white, ...white, ...white, // Front face
+      ...red, ...red, ...red, ...red, // Back face
+      ...green, ...green, ...green, ...green, // Top face
+      ...blue, ...blue, ...blue, ...blue, // Bottom face
+      ...yellow, ...yellow, ...yellow, ...yellow, // Right face
+      ...purple, ...purple, ...purple, ...purple, // Left face
+    ]),
+    context.STATIC_DRAW
+  );
+
+  const indexBuffer = context.createBuffer();
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  context.bufferData(
+    context.ELEMENT_ARRAY_BUFFER,
+    new Uint16Array([
+      0, 1, 2, 0, 2, 3, // Front face
+      4, 5, 6, 4, 6, 7, // Back face
+      8, 9, 10, 8, 10, 11, // Top face
+      12, 13, 14, 12, 14, 15, // Bottom face
+      16, 17, 18, 16, 18, 19, // Right face
+      20, 21, 22, 20, 22, 23, // Left face
+    ]),
+    context.STATIC_DRAW
+  );
+
   let lastTimestamp;
   let rotationRadians = 0;
 
@@ -49,10 +83,7 @@ export default async function renderSquare(/** @type {WebGLRenderingContext} */ 
     context.depthFunc(context.LEQUAL);
     context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
 
-    const positionBuffer = context.createBuffer();
     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
-    context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateSquare()), context.STATIC_DRAW);
-
     context.vertexAttribPointer(
       vertexShaderVertexPositionAttributeLocation,
       3, // Feed the shader 3 floats from the position buffer per iteration (XYZ)
@@ -64,21 +95,7 @@ export default async function renderSquare(/** @type {WebGLRenderingContext} */ 
 
     context.enableVertexAttribArray(vertexShaderVertexPositionAttributeLocation);
 
-    const colorBuffer = context.createBuffer();
     context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-    context.bufferData(
-      context.ARRAY_BUFFER,
-      new Float32Array([
-        ...white, ...white, ...white, ...white, // Front face
-        ...red, ...red, ...red, ...red, // Back face
-        ...green, ...green, ...green, ...green, // Top face
-        ...blue, ...blue, ...blue, ...blue, // Bottom face
-        ...yellow, ...yellow, ...yellow, ...yellow, // Right face
-        ...purple, ...purple, ...purple, ...purple, // Left face
-      ]),
-      context.STATIC_DRAW
-    );
-
     context.vertexAttribPointer(
       vertexShaderVertexColorAttributeLocation,
       4, // Feed the shader 4 floats from the color buffer per iteration
@@ -90,20 +107,7 @@ export default async function renderSquare(/** @type {WebGLRenderingContext} */ 
 
     context.enableVertexAttribArray(vertexShaderVertexColorAttributeLocation);
 
-    const indexBuffer = context.createBuffer();
     context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    context.bufferData(
-      context.ELEMENT_ARRAY_BUFFER,
-      new Uint16Array([
-        0, 1, 2, 0, 2, 3, // Front face
-        4, 5, 6, 4, 6, 7, // Back face
-        8, 9, 10, 8, 10, 11, // Top face
-        12, 13, 14, 12, 14, 15, // Bottom face
-        16, 17, 18, 16, 18, 19, // Right face
-        20, 21, 22, 20, 22, 23, // Left face
-      ]),
-      context.STATIC_DRAW
-    );
 
     context.useProgram(program);
 

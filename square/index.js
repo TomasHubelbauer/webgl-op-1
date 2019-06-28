@@ -36,6 +36,14 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
   const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
   const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
 
+  const positionBuffer = context.createBuffer();
+  context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateSquare()), context.STATIC_DRAW);
+
+  const colorBuffer = context.createBuffer();
+  context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array([...white, ...red, ...green, ...blue]), context.STATIC_DRAW);
+
   let lastTimestamp;
   let rotationRadians = 0;
 
@@ -49,10 +57,7 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
     context.depthFunc(context.LEQUAL);
     context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
 
-    const positionBuffer = context.createBuffer();
     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
-    context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateSquare()), context.STATIC_DRAW);
-
     context.vertexAttribPointer(
       vertexShaderVertexPositionAttributeLocation,
       2, // Feed the shader 2 floats from the position buffer per iteration (XY)
@@ -64,10 +69,7 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
 
     context.enableVertexAttribArray(vertexShaderVertexPositionAttributeLocation);
 
-    const colorBuffer = context.createBuffer();
     context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-    context.bufferData(context.ARRAY_BUFFER, new Float32Array([...white, ...red, ...green, ...blue]), context.STATIC_DRAW);
-
     context.vertexAttribPointer(
       vertexShaderVertexColorAttributeLocation,
       4, // Feed the shader 4 floats from the color buffer per iteration
