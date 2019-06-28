@@ -5,22 +5,6 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
   const fragmentPromise = fetch('cube-textured/fragment.glsl').then(response => response.text());
   const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
 
-  const textureCanvas = document.createElement('canvas');
-  textureCanvas.width = 256;
-  textureCanvas.height = 256;
-  const textureContext = textureCanvas.getContext('2d');
-  for (let x = 0; x < textureCanvas.width / 8; x++) {
-    for (let y = 0; y < textureCanvas.height / 8; y++) {
-      textureContext.fillStyle = x % 2 === 0 ^ y % 2 === 0 ? 'silver' : 'white';
-      textureContext.fillRect(x * 8, y * 8, 8, 8);
-    }
-  }
-
-  const texture = context.createTexture();
-  context.bindTexture(context.TEXTURE_2D, texture);
-  context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, textureCanvas);
-  context.generateMipmap(context.TEXTURE_2D); // Only works for textures with size of power of two
-
   const vertexShader = context.createShader(context.VERTEX_SHADER);
   context.shaderSource(vertexShader, vertexSource);
   context.compileShader(vertexShader);
@@ -78,8 +62,36 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
   let lastTimestamp;
   let rotationRadians = 0;
 
+  const textureCanvas = document.createElement('canvas');
+  textureCanvas.width = 256;
+  textureCanvas.height = 256;
+
+  const textureContext = textureCanvas.getContext('2d');
+
   function render(timestamp) {
     document.title = Math.round(1000 / (timestamp - lastTimestamp)) + ' FPS';
+
+    for (let x = 0; x < textureCanvas.width / 8; x++) {
+      for (let y = 0; y < textureCanvas.height / 8; y++) {
+        textureContext.fillStyle = x % 2 === 0 ^ y % 2 === 0 ? 'silver' : 'white';
+        textureContext.fillRect(x * 8, y * 8, 8, 8);
+      }
+    }
+
+    textureContext.resetTransform();
+    textureContext.rotate(Math.PI / 2);
+    textureContext.fillStyle = 'red';
+    textureContext.font = 'normal 40px sans-serif';
+    textureContext.fillText(new Date().toLocaleTimeString(), 10, -10);
+
+    const length = Math.min(context.canvas.width, context.canvas.height);
+    textureContext.resetTransform();
+    textureContext.drawImage(context.canvas, (context.canvas.width - length) / 2, (context.canvas.height - length) / 2, length, length, 50, 10, 195, 195);
+
+    const texture = context.createTexture();
+    context.bindTexture(context.TEXTURE_2D, texture);
+    context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, textureCanvas);
+    context.generateMipmap(context.TEXTURE_2D); // Only works for textures with size of power of two  
 
     // Clear everything
     context.clearColor(0, 0, 0, 1);

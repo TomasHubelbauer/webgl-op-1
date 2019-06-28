@@ -15,7 +15,7 @@ window.addEventListener('load', async () => {
   window.dispatchEvent(new Event('resize'));
 
   // Note that the context doesn't change with the canvas size so we do not need to refresh it
-  const context = sceneCanvas.getContext('webgl');
+  const context = sceneCanvas.getContext('webgl', { preserveDrawingBuffer: true /* Enable right-click and save image */ });
 
   const sceneSelect = document.getElementById('sceneSelect');
   if (window.location.search) {
