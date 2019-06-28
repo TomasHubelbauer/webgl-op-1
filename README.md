@@ -15,6 +15,9 @@ practice WebGL programming in a goal-driven way.
   - Decide whether to do this using CSG or by adjusting the tesselation code manually
     (Would prefer to do that manually but it may get prohibitively complex to do)
   - https://github.com/jscad/csg.js/
+  - Consider prototyping the OP-1 model in OpenSCAD first to see if CSG is what I need
+  - Figure out how to take the CSG output and render that using WebGL
+  - https://github.com/jscad/csg.js/issues/92 (this is ThreeJS/LightGL)
 - Render the OP-1 text on the side of the keyboard
   - https://stackoverflow.com/a/35027166/2715716
   - https://delphic.me.uk/tutorials/webgl-text
