@@ -3,9 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <title>WebGL OP-1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="index.css" />
     <script src="https://mdn.github.io/webgl-examples/tutorial/gl-matrix.js"></script>
     <script src="index.js" type="module"></script>
   </head>
-  <body></body>
+  <body>
+    <canvas id="sceneCanvas"></canvas>
+    <select id="sceneSelect">
+      <option>square</option>
+      <option>cube</option>
+      <option selected>cube-textured</option>
+    </select>
+  </body>
 </html>

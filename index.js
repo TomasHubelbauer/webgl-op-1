@@ -3,25 +3,43 @@ import renderCubeScene from './cube/index.js';
 import renderCubeTexturedScene from './cube-textured/index.js';
 
 window.addEventListener('load', async () => {
-  const canvas = document.createElement('canvas');
-  document.body.append(canvas);
+  const sceneCanvas = document.getElementById('sceneCanvas');
 
   window.addEventListener('resize', () => {
     // Make the canvas the size of the viewport
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
+    sceneCanvas.width = sceneCanvas.clientWidth;
+    sceneCanvas.height = sceneCanvas.clientHeight;
   });
 
   // Dispatch a fake `resize` event to cause the `canvas` to fit the viewport
   window.dispatchEvent(new Event('resize'));
 
   // Note that the context doesn't change with the canvas size so we do not need to refresh it
-  const context = canvas.getContext('webgl');
+  const context = sceneCanvas.getContext('webgl');
 
-  const scene = 'cube-textured';
-  switch (scene) {
-    case 'square': renderSquareScene(context); break;
-    case 'cube': renderCubeScene(context); break;
-    case 'cube-textured': renderCubeTexturedScene(context); break;
+  const sceneSelect = document.getElementById('sceneSelect');
+  if (window.location.search) {
+    sceneSelect.value = window.location.search.substring(1);
   }
+
+  switch (sceneSelect.value) {
+    case 'square': {
+      renderSquareScene(context);
+      break;
+    }
+    case 'cube': {
+      renderCubeScene(context);
+      break;
+    }
+    case 'cube-textured': {
+      renderCubeTexturedScene(context);
+      break;
+    }
+    default: {
+      alert(`The scene ${sceneSelect.value} was not found`);
+      window.location.search = 'cube-textured';
+    }
+  }
+
+  sceneSelect.addEventListener('change', () => window.location.search = sceneSelect.value);
 });
