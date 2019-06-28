@@ -5,7 +5,7 @@ practice WebGL programming in a goal-driven way.
 
 I am following this WebGL tutorial on MDN:
 
-https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL
+https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Lighting_in_WebGL
 
 - Figure out how to allow rotating using the mouse and scaling using the wheel
   - https://www.tutorialspoint.com/webgl/webgl_interactive_cube.htm

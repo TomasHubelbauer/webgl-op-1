@@ -1,9 +1,8 @@
 import tesselateCube from '../tesselateCube.js';
-import { white, red, green, blue, yellow, purple } from '../colors.js';
 
 export default async function renderCubeTexturedScene(/** @type {WebGLRenderingContext} */ context) {
-  const vertexPromise = fetch('cube/vertex.glsl').then(response => response.text());
-  const fragmentPromise = fetch('cube/fragment.glsl').then(response => response.text());
+  const vertexPromise = fetch('cube-textured/vertex.glsl').then(response => response.text());
+  const fragmentPromise = fetch('cube-textured/fragment.glsl').then(response => response.text());
   const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
 
   const textureCanvas = document.createElement('canvas');
@@ -48,28 +47,18 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
   }
 
   const vertexShaderVertexPositionAttributeLocation = context.getAttribLocation(program, 'vertexPosition');
-  const vertexShaderVertexColorAttributeLocation = context.getAttribLocation(program, 'vertexColor');
+  const vertexShaderVertexTextureCoordinateAttributeLocation = context.getAttribLocation(program, 'vertexTextureCoordinate');
   const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
   const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
+  const fragmentShaderTextureSamplerUniformLocation = context.getUniformLocation(program, 'textureSampler');
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
   context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateCube()), context.STATIC_DRAW);
 
-  const colorBuffer = context.createBuffer();
-  context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-  context.bufferData(
-    context.ARRAY_BUFFER,
-    new Float32Array([
-      ...white, ...white, ...white, ...white, // Front face
-      ...red, ...red, ...red, ...red, // Back face
-      ...green, ...green, ...green, ...green, // Top face
-      ...blue, ...blue, ...blue, ...blue, // Bottom face
-      ...yellow, ...yellow, ...yellow, ...yellow, // Right face
-      ...purple, ...purple, ...purple, ...purple, // Left face
-    ]),
-    context.STATIC_DRAW
-  );
+  const textureCoordinateBuffer = context.createBuffer();
+  context.bindBuffer(context.ARRAY_BUFFER, textureCoordinateBuffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array([0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1]), context.STATIC_DRAW);
 
   const indexBuffer = context.createBuffer();
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -111,17 +100,17 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
 
     context.enableVertexAttribArray(vertexShaderVertexPositionAttributeLocation);
 
-    context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+    context.bindBuffer(context.ARRAY_BUFFER, textureCoordinateBuffer);
     context.vertexAttribPointer(
-      vertexShaderVertexColorAttributeLocation,
-      4, // Feed the shader 4 floats from the color buffer per iteration
+      vertexShaderVertexTextureCoordinateAttributeLocation,
+      2, // Feed the shader 2 floats from the texture coordinate buffer per iteration
       context.FLOAT, // The position buffer is a `Float32Array`
       false, // TODO: Find out what this does
       0, // Do not set stride, instead use the size and type arguments above
-      0, // Start at the beginning of the color array
+      0, // Start at the beginning of the texture coordinate array
     );
 
-    context.enableVertexAttribArray(vertexShaderVertexColorAttributeLocation);
+    context.enableVertexAttribArray(vertexShaderVertexTextureCoordinateAttributeLocation);
 
     context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
@@ -143,6 +132,10 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
     mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 1, /* Y axis */ 1 /* Z axis */]);
 
     context.uniformMatrix4fv(vertexShaderModelViewMatrixUniformLocation, false, modelViewMatrix);
+
+    context.activeTexture(context.TEXTURE0);
+    context.bindTexture(context.TEXTURE_2D, texture);
+    context.uniform1i(fragmentShaderTextureSamplerUniformLocation, 0);
 
     context.drawElements(
       context.TRIANGLES,

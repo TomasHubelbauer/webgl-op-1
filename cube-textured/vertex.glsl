@@ -1,14 +1,14 @@
 attribute vec4 vertexPosition;
-attribute vec4 vertexColor;
+attribute vec2 vertexTextureCoordinate;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
-varying lowp vec4 color;
+varying highp vec2 textureCoordinate;
 
 void main() {
   gl_Position = projectionMatrix * modelViewMatrix * vertexPosition;
 
-  // Forward the color attribute to the color varying available to the fragment shader
-  color = vertexColor;
+  // Forward the texture coordinate attribute to the texture coordinate varying available to the fragment shader
+  textureCoordinate = vertexTextureCoordinate;
 }
