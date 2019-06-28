@@ -1,4 +1,5 @@
 import tesselateSquare from '../tesselateSquare.js';
+import { white, red, green, blue } from '../colors.js';
 
 export default async function renderSquareScene(/** @type {WebGLRenderingContext} */ context) {
   const vertexPromise = fetch('square/vertex.glsl').then(response => response.text());
@@ -52,32 +53,20 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
     context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateSquare()), context.STATIC_DRAW);
 
-    const fieldOfView = 45 * Math.PI / 180;
-    const aspectRatio = context.canvas.width / context.canvas.height;
-    const nearPlane = .1;
-    const farPlane = 100;
-
-    const projectionMatrix = mat4.create();
-    mat4.perspective(projectionMatrix, fieldOfView, aspectRatio, nearPlane, farPlane);
-
-    const modelViewMatrix = mat4.create();
-    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -6]);
-    mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 0, 1 /* Z axis */]);
-
     context.vertexAttribPointer(
       vertexShaderVertexPositionAttributeLocation,
-      2, // Feed the shader 2 floats from the position buffer per iteration
+      2, // Feed the shader 2 floats from the position buffer per iteration (XY)
       context.FLOAT, // The position buffer is a `Float32Array`
       false, // TODO: Find out what this does
       0, // Do not set stride, instead use the size and type arguments above
-      0, // Start at the beginning of the array
+      0, // Start at the beginning of the position array
     );
 
     context.enableVertexAttribArray(vertexShaderVertexPositionAttributeLocation);
 
     const colorBuffer = context.createBuffer();
     context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-    context.bufferData(context.ARRAY_BUFFER, new Float32Array([/* white */ 1, 1, 1, 1, /* red */ 1, 0, 0, 1, /* green */ 0, 1, 0, 1, /* blue */ 0, 0, 1, 1]), context.STATIC_DRAW);
+    context.bufferData(context.ARRAY_BUFFER, new Float32Array([...white, ...red, ...green, ...blue]), context.STATIC_DRAW);
 
     context.vertexAttribPointer(
       vertexShaderVertexColorAttributeLocation,
@@ -85,14 +74,28 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
       context.FLOAT, // The position buffer is a `Float32Array`
       false, // TODO: Find out what this does
       0, // Do not set stride, instead use the size and type arguments above
-      0, // Start at the beginning of the array
+      0, // Start at the beginning of the color array
     );
 
     context.enableVertexAttribArray(vertexShaderVertexColorAttributeLocation);
 
     context.useProgram(program);
 
+    const projectionMatrix = mat4.create();
+    mat4.perspective(
+      projectionMatrix,
+      45 * Math.PI / 180, // 45 ° degree field of view in radians
+      context.canvas.width / context.canvas.height, // The canvas aspect ratio
+      .1, // Nearest distance the camera will render
+      100, // Farthest distance the camera will render
+    );
+
     context.uniformMatrix4fv(vertexShaderProjectionMatrixUniformLocation, false, projectionMatrix);
+
+    const modelViewMatrix = mat4.create();
+    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -6]);
+    mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 0, 1 /* Z axis */]);
+
     context.uniformMatrix4fv(vertexShaderModelViewMatrixUniformLocation, false, modelViewMatrix);
 
     context.drawArrays(context.TRIANGLE_STRIP, 0, 4);

@@ -3,7 +3,11 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
-- https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Creating_3D_objects_using_WebGL
+I am following this WebGL tutorial on MDN:
+
+https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Creating_3D_objects_using_WebGL
+
+- Figure out why the cube won't render - am I binding arrays in the wrong order?
 - Figure out how to allow rotating using the mouse and scaling using the wheel
   - https://www.tutorialspoint.com/webgl/webgl_interactive_cube.htm
 - Make the cube roughly OP-1 sized and add rounded corners to it

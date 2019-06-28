@@ -1,4 +1,5 @@
 import tesselateSquare from '../tesselateSquare.js';
+import { white, red, green, blue, yellow, purple } from '../colors.js';
 
 export default async function renderSquare(/** @type {WebGLRenderingContext} */ context) {
   const vertexPromise = fetch('cube/vertex.glsl').then(response => response.text());
@@ -52,32 +53,31 @@ export default async function renderSquare(/** @type {WebGLRenderingContext} */ 
     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
     context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateSquare()), context.STATIC_DRAW);
 
-    const fieldOfView = 45 * Math.PI / 180;
-    const aspectRatio = context.canvas.width / context.canvas.height;
-    const nearPlane = .1;
-    const farPlane = 100;
-
-    const projectionMatrix = mat4.create();
-    mat4.perspective(projectionMatrix, fieldOfView, aspectRatio, nearPlane, farPlane);
-
-    const modelViewMatrix = mat4.create();
-    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -6]);
-    mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 0, 1 /* Z axis */]);
-
     context.vertexAttribPointer(
       vertexShaderVertexPositionAttributeLocation,
-      2, // Feed the shader 2 floats from the position buffer per iteration
+      3, // Feed the shader 3 floats from the position buffer per iteration (XYZ)
       context.FLOAT, // The position buffer is a `Float32Array`
       false, // TODO: Find out what this does
       0, // Do not set stride, instead use the size and type arguments above
-      0, // Start at the beginning of the array
+      0, // Start at the beginning of the position array
     );
 
     context.enableVertexAttribArray(vertexShaderVertexPositionAttributeLocation);
 
     const colorBuffer = context.createBuffer();
     context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-    context.bufferData(context.ARRAY_BUFFER, new Float32Array([/* white */ 1, 1, 1, 1, /* red */ 1, 0, 0, 1, /* green */ 0, 1, 0, 1, /* blue */ 0, 0, 1, 1]), context.STATIC_DRAW);
+    context.bufferData(
+      context.ARRAY_BUFFER,
+      new Float32Array([
+        ...white, ...white, ...white, ...white, // Front face
+        ...red, ...red, ...red, ...red, // Back face
+        ...green, ...green, ...green, ...green, // Top face
+        ...blue, ...blue, ...blue, ...blue, // Bottom face
+        ...yellow, ...yellow, ...yellow, ...yellow, // Right face
+        ...purple, ...purple, ...purple, ...purple, // Left face
+      ]),
+      context.STATIC_DRAW
+    );
 
     context.vertexAttribPointer(
       vertexShaderVertexColorAttributeLocation,
@@ -85,17 +85,51 @@ export default async function renderSquare(/** @type {WebGLRenderingContext} */ 
       context.FLOAT, // The position buffer is a `Float32Array`
       false, // TODO: Find out what this does
       0, // Do not set stride, instead use the size and type arguments above
-      0, // Start at the beginning of the array
+      0, // Start at the beginning of the color array
     );
 
     context.enableVertexAttribArray(vertexShaderVertexColorAttributeLocation);
 
+    const indexBuffer = context.createBuffer();
+    context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    context.bufferData(
+      context.ELEMENT_ARRAY_BUFFER,
+      new Uint16Array([
+        0, 1, 2, 0, 2, 3, // Front face
+        4, 5, 6, 4, 6, 7, // Back face
+        8, 9, 10, 8, 10, 11, // Top face
+        12, 13, 14, 12, 14, 15, // Bottom face
+        16, 17, 18, 16, 18, 19, // Right face
+        20, 21, 22, 20, 22, 23, // Left face
+      ]),
+      context.STATIC_DRAW
+    );
+
     context.useProgram(program);
 
+    const projectionMatrix = mat4.create();
+    mat4.perspective(
+      projectionMatrix,
+      45 * Math.PI / 180, // 45 ° degree field of view in radians
+      context.canvas.width / context.canvas.height, // The canvas aspect ratio
+      .1, // Nearest distance the camera will render
+      100, // Farthest distance the camera will render
+    );
+
     context.uniformMatrix4fv(vertexShaderProjectionMatrixUniformLocation, false, projectionMatrix);
+
+    const modelViewMatrix = mat4.create();
+    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -6]);
+    mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 1, /* Y axis */ 1 /* Z axis */]);
+
     context.uniformMatrix4fv(vertexShaderModelViewMatrixUniformLocation, false, modelViewMatrix);
 
-    context.drawArrays(context.TRIANGLE_STRIP, 0, 4);
+    context.drawElements(
+      context.TRIANGLES,
+      36, // 36 vertices / indices
+      context.UNSIGNED_SHORT, // The index buffer is an `Uint16Array`
+      0, // Start at the beginning of the index array
+    )
 
     // Update timestamp for FPS calculation
     lastTimestamp = timestamp;
