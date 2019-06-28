@@ -3,6 +3,13 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
+- Rename `cube-textured` to `cube-droste`
+- Add `.vscode` with workspace extension suggestion for `slevesque.shader` and
+  drop if from the README
+- Create a scene with multiple objects in it
+- Create a scene with an cube with a recession in one of its faces whose rect is
+  a different color (more complex tesselation topology and color mapping in
+    preparation for the keyboard recession work)
 - Figure out how to allow rotating using the mouse and scaling using the wheel
   - https://www.tutorialspoint.com/webgl/webgl_interactive_cube.htm
 - Make the cube roughly OP-1 sized and add rounded corners to it
