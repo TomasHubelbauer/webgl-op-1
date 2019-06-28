@@ -3,8 +3,6 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
-- Split the codebase into ES modules and pull out tesselations and renderers of
-  the various scenes to their own files
 - Backup the current render method and render a cube in the clone
   - https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Creating_3D_objects_using_WebGL
 - Figure out how to allow rotating using the mouse and scaling using the wheel
