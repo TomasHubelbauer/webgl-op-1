@@ -12,6 +12,9 @@ practice WebGL programming in a goal-driven way.
 - Make the cube roughly OP-1 sized and add rounded corners to it
   - https://teenage.engineering/guides/op-1/main-modes
 - Add recessions for the keyboard area, the battery indicator and the mic
+  - Decide whether to do this using CSG or by adjusting the tesselation code manually
+    (Would prefer to do that manually but it may get prohibitively complex to do)
+  - https://github.com/jscad/csg.js/
 - Render the OP-1 text on the side of the keyboard
   - https://stackoverflow.com/a/35027166/2715716
   - https://delphic.me.uk/tutorials/webgl-text
