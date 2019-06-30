@@ -4,8 +4,6 @@ I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
 - Rename `cube-textured` to `cube-droste`
-- Add `.vscode` with workspace extension suggestion for `slevesque.shader` and
-  drop if from the README
 - Create a scene with multiple objects in it
 - Create a scene with an cube with a recession in one of its faces whose rect is
   a different color (more complex tesselation topology and color mapping in
@@ -44,6 +42,3 @@ practice WebGL programming in a goal-driven way.
 - Find out what `vertexAttribPointer`'s `normalize` argument is for (clamping?)
 - Consider designing (some of) the internals as well so that I could make an
   exploded view of the device
-
-Install the `slevesque.shader` VS Code extension to get syntax highlighting in
-the GLSL shader files.
