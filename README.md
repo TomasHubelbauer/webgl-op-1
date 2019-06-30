@@ -3,9 +3,9 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
-- Create a scene with an cube with a recession in one of its faces whose rect is
-  a different color (more complex tesselation topology and color mapping in
-    preparation for the keyboard recession work)
+- Find out if WebGL allows rendering quads not just tris
+- Create a demo where a portion of the mesh is textured and another just colored
+  (Probably need to pass this information to the shared and go with color/UV depending)
 - Create a scene with multiple objects in it
 - Create a scene with a WebGL portal in it (does WebGL support non-Euclidean?)
 - Figure out how to allow rotating using the mouse and scaling using the wheel

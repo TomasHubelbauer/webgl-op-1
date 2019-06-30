@@ -1,7 +1,6 @@
 import tesselateCube from './tesselateCube.js';
-import { white, red, green, blue, yellow, purple } from '../colors.js';
 
-export default async function renderCubeScene(/** @type {WebGLRenderingContext} */ context) {
+export default async function renderCubeRecessedScene(/** @type {WebGLRenderingContext} */ context) {
   const vertexPromise = fetch('cube-recessed/vertex.glsl').then(response => response.text());
   const fragmentPromise = fetch('cube-recessed/fragment.glsl').then(response => response.text());
   const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
@@ -36,7 +35,7 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
   const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
   const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
 
-  const { vertices, indices } = tesselateCube();
+  const { vertices, indices, colors } = tesselateCube();
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
@@ -44,18 +43,7 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
 
   const colorBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-  context.bufferData(
-    context.ARRAY_BUFFER,
-    new Float32Array([
-      ...white, ...white, ...white, ...white, // Front face
-      ...red, ...red, ...red, ...red, // Back face
-      ...green, ...green, ...green, ...green, // Top face
-      ...blue, ...blue, ...blue, ...blue, // Bottom face
-      ...yellow, ...yellow, ...yellow, ...yellow, // Right face
-      ...purple, ...purple, ...purple, ...purple, // Left face
-    ]),
-    context.STATIC_DRAW
-  );
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array(colors), context.STATIC_DRAW);
 
   const indexBuffer = context.createBuffer();
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -121,7 +109,7 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
 
     context.drawElements(
       context.TRIANGLES,
-      36, // 36 vertices / indices
+      indices.length,
       context.UNSIGNED_SHORT, // The index buffer is an `Uint16Array`
       0, // Start at the beginning of the index array
     )

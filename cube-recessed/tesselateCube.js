@@ -1,49 +1,48 @@
+import { white, red, green, blue, yellow, purple, black } from '../colors.js';
+
 export default function tesselateCube() {
-  return {
-    vertices: [
-      // Front face
-      -1, -1, 1,
-      1, -1, 1,
-      1, 1, 1,
-      -1, 1, 1,
+  const vertices = [];
+  const indices = [];
+  const colors = [];
 
-      // Back face
-      -1, -1, -1,
-      -1, 1, -1,
-      1, 1, -1,
-      1, -1, -1,
+  let index = 0;
 
-      // Top face
-      -1, 1, -1,
-      -1, 1, 1,
-      1, 1, 1,
-      1, 1, -1,
+  // TODO: Reuse indices of the same vertices automatically to transfer less data
+  function addFace(topLeft, topRight, bottomRight, bottomLeft, color) {
+    // Create the first triangle
+    vertices.push(...topLeft, ...topRight, ...bottomRight);
+    indices.push(index + 0, index + 1, index + 2);
 
-      // Bottom face
-      -1, -1, -1,
-      1, -1, -1,
-      1, -1, 1,
-      -1, -1, 1,
+    // Create the second triangle
+    vertices.push(...bottomLeft);
+    indices.push(index + 0, index + 2, index + 3);
 
-      // Right face
-      1, -1, -1,
-      1, 1, -1,
-      1, 1, 1,
-      1, -1, 1,
+    // Increase the index counter
+    index += 4;
 
-      // Left face
-      -1, -1, -1,
-      -1, -1, 1,
-      -1, 1, 1,
-      -1, 1, -1,
-    ],
-    indices: [
-      0, 1, 2, 0, 2, 3, // Front face
-      4, 5, 6, 4, 6, 7, // Back face
-      8, 9, 10, 8, 10, 11, // Top face
-      12, 13, 14, 12, 14, 15, // Bottom face
-      16, 17, 18, 16, 18, 19, // Right face
-      20, 21, 22, 20, 22, 23, // Left face
-    ],
-  };
+    // Push the color for each of the four vertices of the face
+    colors.push(...color, ...color, ...color, ...color);
+  }
+
+  addFace([-1, -1, -1], [-1, 1, -1], [1, 1, -1], [1, -1, -1], red); // Back face
+  addFace([-1, 1, -1], [-1, 1, 1], [1, 1, 1], [1, 1, -1], green); // Top face
+  addFace([-1, -1, -1], [1, -1, -1], [1, -1, 1], [-1, -1, 1], blue); // Bottom face
+  addFace([1, -1, -1], [1, 1, -1], [1, 1, 1], [1, -1, 1], yellow); // Right face
+  addFace([-1, -1, -1], [-1, -1, 1], [-1, 1, 1], [-1, 1, -1], purple); // Left face
+
+  addFace([-1, -1, 1], [1, -1, 1], [1, -.75, 1], [-1, -.75, 1], white); // Front face top row
+  addFace([-.75, -.75, 1], [.75, -.75, 1], [.75, -.75, .75], [-.75, -.75, .75], black); // Front face top row recession
+
+  addFace([-1, .75, 1], [1, .75, 1], [1, 1, 1], [-1, 1, 1], white); // Front face bottom row
+  addFace([-.75, .75, 1], [.75, .75, 1], [.75, .75, .75], [-.75, .75, .75], black); // Front face bottom row recession
+
+  addFace([.75, -.75, 1], [1, -.75, 1], [1, .75, 1], [.75, .75, 1], white); // Front face right column
+  addFace([.75, -.75, 1], [.75, .75, 1], [.75, .75, .75], [.75, -.75, .75], black); // Front face right column recession
+
+  addFace([-1, -.75, 1], [-.75, -.75, 1], [-.75, .75, 1], [-1, .75, 1], white); // Front face left column
+  addFace([-.75, -.75, 1], [-.75, .75, 1], [-.75, .75, .75], [-.75, -.75, .75], black); // Front face left column recession
+
+  addFace([-.75, -.75, .75], [-.75, .75, .75], [.75, .75, .75], [.75, -.75, .75], white); // Front face recession
+
+  return { vertices, indices, colors };
 }
