@@ -1,4 +1,4 @@
-import tesselateCube from '../tesselateCube.js';
+import tesselateCube from './tesselateCube.js';
 import { white, red, green, blue, yellow, purple } from '../colors.js';
 
 export default async function renderCubeScene(/** @type {WebGLRenderingContext} */ context) {
@@ -36,9 +36,11 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
   const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
   const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
 
+  const { vertices, indices } = tesselateCube();
+
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
-  context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateCube()), context.STATIC_DRAW);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array(vertices), context.STATIC_DRAW);
 
   const colorBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
@@ -57,18 +59,7 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
 
   const indexBuffer = context.createBuffer();
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
-  context.bufferData(
-    context.ELEMENT_ARRAY_BUFFER,
-    new Uint16Array([
-      0, 1, 2, 0, 2, 3, // Front face
-      4, 5, 6, 4, 6, 7, // Back face
-      8, 9, 10, 8, 10, 11, // Top face
-      12, 13, 14, 12, 14, 15, // Bottom face
-      16, 17, 18, 16, 18, 19, // Right face
-      20, 21, 22, 20, 22, 23, // Left face
-    ]),
-    context.STATIC_DRAW
-  );
+  context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), context.STATIC_DRAW);
 
   let lastTimestamp;
   let rotationRadians = 0;
