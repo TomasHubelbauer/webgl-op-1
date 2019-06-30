@@ -3,6 +3,9 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
+- Create a demo of a cube with rounded corners
+- Create a demo of a cube with rounded corners with one radius on vertical edges
+  and another on horizontal edges
 - Find out if WebGL allows rendering quads not just tris
 - Create a demo where a portion of the mesh is textured and another just colored
   (Probably need to pass this information to the shared and go with color/UV depending)
