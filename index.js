@@ -2,6 +2,7 @@ import renderSquareScene from './square/index.js';
 import renderCubeScene from './cube/index.js';
 import renderCubeTexturedScene from './cube-textured/index.js';
 import renderCubeRecessedScene from './cube-recessed/index.js';
+import renderPipeScene from './pipe/index.js';
 
 window.addEventListener('load', async () => {
   const sceneCanvas = document.getElementById('sceneCanvas');
@@ -38,6 +39,10 @@ window.addEventListener('load', async () => {
     }
     case 'cube-recessed': {
       renderCubeRecessedScene(context);
+      break;
+    }
+    case 'pipe': {
+      renderPipeScene(context);
       break;
     }
     default: {
