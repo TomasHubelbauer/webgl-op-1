@@ -44,7 +44,7 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
   context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
   context.bufferData(context.ARRAY_BUFFER, new Float32Array([...white, ...red, ...green, ...blue]), context.STATIC_DRAW);
 
-  let lastTimestamp;
+  let lastTimestamp = performance.now();
   let rotationRadians = 0;
 
   function render(timestamp) {
