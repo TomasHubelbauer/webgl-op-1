@@ -5,8 +5,8 @@ practice WebGL programming in a goal-driven way.
 
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
-- Create a demo of a cube with rounded corners with one radius on vertical edges
-  and another on horizontal edges
+- Add front and back faces to the cube with rounded vertical edge axes
+  (Generate tris for each arc face and add a back face and a front recessed face)
 - Create a demo where a portion of the mesh is textured and another just colored
   (Probably need to pass this information to the shared and go with color/UV depending)
 - Create a scene with multiple objects in it
