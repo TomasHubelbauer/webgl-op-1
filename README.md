@@ -3,14 +3,10 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
-- Query `DELETE_STATUS` when deleting shaders and programs that failed to compile/link
-- Make use of `validateProgram` and query `VALIDATE_STATUS`
-- Query `ATTACHED_SHADERS` when attaching a shader to a program
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
 - Create a demo of a cube with rounded corners with one radius on vertical edges
   and another on horizontal edges
-- Find out if WebGL allows rendering quads not just tris
 - Create a demo where a portion of the mesh is textured and another just colored
   (Probably need to pass this information to the shared and go with color/UV depending)
 - Create a scene with multiple objects in it
@@ -63,3 +59,8 @@ context.getParameter(context.MAX_TEXTURE_IMAGE_UNITS);
 ---
 
 The default WebGL depth testing function is `LESS`.
+
+---
+
+WebGL only seems to be able to draw points, lines and tris, not quads
+(without triangulation).

@@ -1,38 +1,19 @@
+import setupProgram from '../setupProgram.js';
+
 export default async function renderCubeTexturedScene(/** @type {WebGLRenderingContext} */ context) {
-  const vertexPromise = fetch('cube-textured/vertex.glsl').then(response => response.text());
-  const fragmentPromise = fetch('cube-textured/fragment.glsl').then(response => response.text());
-  const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
-
-  const vertexShader = context.createShader(context.VERTEX_SHADER);
-  context.shaderSource(vertexShader, vertexSource);
-  context.compileShader(vertexShader);
-  if (!context.getShaderParameter(vertexShader, context.COMPILE_STATUS)) {
-    context.deleteShader(vertexShader);
-    alert('Failed to compile the vertex shader: ' + context.getShaderInfoLog(vertexShader));
-  }
-
-  const fragmentShader = context.createShader(context.FRAGMENT_SHADER);
-  context.shaderSource(fragmentShader, fragmentSource);
-  context.compileShader(fragmentShader);
-  if (!context.getShaderParameter(fragmentShader, context.COMPILE_STATUS)) {
-    context.deleteShader(fragmentShader);
-    alert('Failed to compile the fragment shader: ' + context.getShaderInfoLog(fragmentShader));
-  }
-
-  const program = context.createProgram();
-  context.attachShader(program, vertexShader);
-  context.attachShader(program, fragmentShader);
-  context.linkProgram(program);
-  if (!context.getProgramParameter(program, context.LINK_STATUS)) {
-    context.deleteProgram(program);
-    alert('Failed to link the program: ' + context.getProgramInfoLog(program));
-  }
-
-  const vertexShaderVertexPositionAttributeLocation = context.getAttribLocation(program, 'vertexPosition');
-  const vertexShaderVertexTextureCoordinateAttributeLocation = context.getAttribLocation(program, 'vertexTextureCoordinate');
-  const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
-  const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
-  const fragmentShaderTextureSamplerUniformLocation = context.getUniformLocation(program, 'textureSampler');
+  const {
+    vertexPosition: vertexShaderVertexPositionAttributeLocation,
+    vertexTextureCoordinate: vertexShaderVertexTextureCoordinateAttributeLocation,
+    modelViewMatrix: vertexShaderModelViewMatrixUniformLocation,
+    projectionMatrix: vertexShaderProjectionMatrixUniformLocation,
+    textureSampler: fragmentShaderTextureSamplerUniformLocation,
+  } = await setupProgram(context, 'cube-textured/vertex.glsl', 'cube-textured/fragment.glsl', {
+    vertexPosition: 'attribute',
+    vertexTextureCoordinate: 'attribute',
+    modelViewMatrix: 'uniform',
+    projectionMatrix: 'uniform',
+    textureSampler: 'uniform',
+  });
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
@@ -175,8 +156,6 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
     context.enableVertexAttribArray(vertexShaderVertexTextureCoordinateAttributeLocation);
 
     context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-    context.useProgram(program);
 
     const projectionMatrix = mat4.create();
     mat4.perspective(

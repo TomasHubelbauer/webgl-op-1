@@ -1,37 +1,17 @@
+import setupProgram from '../setupProgram.js';
+
 export default async function renderCubeRoundedScene(/** @type {WebGLRenderingContext} */ context) {
-  const vertexPromise = fetch('cube-rounded/vertex.glsl').then(response => response.text());
-  const fragmentPromise = fetch('cube-rounded/fragment.glsl').then(response => response.text());
-  const [vertexSource, fragmentSource] = await Promise.all([vertexPromise, fragmentPromise]);
-
-  const vertexShader = context.createShader(context.VERTEX_SHADER);
-  context.shaderSource(vertexShader, vertexSource);
-  context.compileShader(vertexShader);
-  if (!context.getShaderParameter(vertexShader, context.COMPILE_STATUS)) {
-    context.deleteShader(vertexShader);
-    alert('Failed to compile the vertex shader: ' + context.getShaderInfoLog(vertexShader));
-  }
-
-  const fragmentShader = context.createShader(context.FRAGMENT_SHADER);
-  context.shaderSource(fragmentShader, fragmentSource);
-  context.compileShader(fragmentShader);
-  if (!context.getShaderParameter(fragmentShader, context.COMPILE_STATUS)) {
-    context.deleteShader(fragmentShader);
-    alert('Failed to compile the fragment shader: ' + context.getShaderInfoLog(fragmentShader));
-  }
-
-  const program = context.createProgram();
-  context.attachShader(program, vertexShader);
-  context.attachShader(program, fragmentShader);
-  context.linkProgram(program);
-  if (!context.getProgramParameter(program, context.LINK_STATUS)) {
-    context.deleteProgram(program);
-    alert('Failed to link the program: ' + context.getProgramInfoLog(program));
-  }
-
-  const vertexShaderVertexPositionAttributeLocation = context.getAttribLocation(program, 'vertexPosition');
-  const vertexShaderVertexColorAttributeLocation = context.getAttribLocation(program, 'vertexColor');
-  const vertexShaderModelViewMatrixUniformLocation = context.getUniformLocation(program, 'modelViewMatrix');
-  const vertexShaderProjectionMatrixUniformLocation = context.getUniformLocation(program, 'projectionMatrix');
+  const {
+    vertexPosition: vertexShaderVertexPositionAttributeLocation,
+    vertexColor: vertexShaderVertexColorAttributeLocation,
+    modelViewMatrix: vertexShaderModelViewMatrixUniformLocation,
+    projectionMatrix: vertexShaderProjectionMatrixUniformLocation,
+  } = await setupProgram(context, 'cube-rounded/vertex.glsl', 'cube-rounded/fragment.glsl', {
+    vertexPosition: 'attribute',
+    vertexColor: 'attribute',
+    modelViewMatrix: 'uniform',
+    projectionMatrix: 'uniform',
+  });
 
   const vertices = [];
   const colors = [];
@@ -86,8 +66,6 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
     context.enableVertexAttribArray(vertexShaderVertexColorAttributeLocation);
 
     context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-    context.useProgram(program);
 
     const projectionMatrix = mat4.create();
     mat4.perspective(
