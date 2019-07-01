@@ -59,3 +59,7 @@ context.getParameter(context.MAX_TEXTURE_IMAGE_UNITS);
 | Chrome | 16 |
 | Edge | 16 |
 | Safari | ? |
+
+---
+
+The default WebGL depth testing function is `LESS`.
