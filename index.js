@@ -3,6 +3,7 @@ import renderCubeScene from './cube/index.js';
 import renderCubeTexturedScene from './cube-textured/index.js';
 import renderCubeRecessedScene from './cube-recessed/index.js';
 import renderPipeScene from './pipe/index.js';
+import renderCubeRoundedScene from './cube-rounded/index.js';
 
 window.addEventListener('load', async () => {
   const sceneCanvas = document.getElementById('sceneCanvas');
@@ -43,6 +44,10 @@ window.addEventListener('load', async () => {
     }
     case 'pipe': {
       renderPipeScene(context);
+      break;
+    }
+    case 'cube-rounded': {
+      renderCubeRoundedScene(context);
       break;
     }
     default: {
