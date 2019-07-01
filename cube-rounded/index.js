@@ -1,5 +1,5 @@
 import setupProgram from '../setupProgram.js';
-import { white, red } from '../colors.js';
+import { white, red, green } from '../colors.js';
 
 export default async function renderCubeRoundedScene(/** @type {WebGLRenderingContext} */ context) {
   const {
@@ -37,14 +37,31 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
     colors.push(...color, ...color, ...color, ...color);
   }
 
+  function addArc(x, y, z, radius, steps, offset, range, colorOdd, colorEven) {
+    for (let index = 1; index <= steps; index++) {
+      const startAngle = offset + ((index - 1) / steps) * range;
+      const endAngle = offset + (index / steps) * range;
+      const startX = x + Math.sin(startAngle) * radius;
+      const startZ = z + Math.cos(startAngle) * radius;
+      const endX = x + Math.sin(endAngle) * radius;
+      const endZ = z + Math.cos(endAngle) * radius;
+      addFace([startX, y, startZ], [startX, -y, startZ], [endX, -y, endZ], [endX, y, endZ], index % 2 === 0 ? colorOdd : colorEven);
+    }
+  }
+
   const width = 1;
   const height = .1;
   const depth = .35;
   const radius = .05;
+  const steps = 6;
   addFace([-(width - radius), -height, depth], [width - radius, -height, depth], [width - radius, height, depth], [-(width - radius), height, depth], red);
   addFace([-width, -height, depth - radius], [-width, -height, -(depth - radius)], [-width, height, -(depth - radius)], [-width, height, depth - radius], white);
   addFace([-(width - radius), -height, -depth], [width - radius, -height, -depth], [width - radius, height, -depth], [-(width - radius), height, -depth], red);
   addFace([width, -height, depth - radius], [width, -height, -(depth - radius)], [width, height, -(depth - radius)], [width, height, depth - radius], white);
+  addArc(width - radius, height, depth - radius, radius, steps, 0, Math.PI / 2, red, white);
+  addArc(width - radius, height, -(depth - radius), radius, steps, Math.PI / 2, Math.PI / 2, red, white);
+  addArc(-(width - radius), height, -(depth - radius), radius, steps, Math.PI, Math.PI / 2, red, white);
+  addArc(-(width - radius), height, depth - radius, radius, steps, Math.PI * 1.5, Math.PI / 2, red, white);
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
