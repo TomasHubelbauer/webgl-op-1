@@ -1,4 +1,5 @@
 import setupProgram from '../setupProgram.js';
+import { white, red } from '../colors.js';
 
 export default async function renderCubeRoundedScene(/** @type {WebGLRenderingContext} */ context) {
   const {
@@ -16,6 +17,34 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
   const vertices = [];
   const colors = [];
   const indices = [];
+
+  let index = 0;
+
+  // TODO: Reuse indices of the same vertices automatically to transfer less data
+  function addFace(topLeft, topRight, bottomRight, bottomLeft, color) {
+    // Create the first triangle
+    vertices.push(...topLeft, ...topRight, ...bottomRight);
+    indices.push(index + 0, index + 1, index + 2);
+
+    // Create the second triangle
+    vertices.push(...bottomLeft);
+    indices.push(index + 0, index + 2, index + 3);
+
+    // Increase the index counter
+    index += 4;
+
+    // Push the color for each of the four vertices of the face
+    colors.push(...color, ...color, ...color, ...color);
+  }
+
+  const width = 1;
+  const height = .1;
+  const depth = .35;
+  const radius = .05;
+  addFace([-(width - radius), -height, depth], [width - radius, -height, depth], [width - radius, height, depth], [-(width - radius), height, depth], red);
+  addFace([-width, -height, depth - radius], [-width, -height, -(depth - radius)], [-width, height, -(depth - radius)], [-width, height, depth - radius], white);
+  addFace([-(width - radius), -height, -depth], [width - radius, -height, -depth], [width - radius, height, -depth], [-(width - radius), height, -depth], red);
+  addFace([width, -height, depth - radius], [width, -height, -(depth - radius)], [width, height, -(depth - radius)], [width, height, depth - radius], white);
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
