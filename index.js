@@ -23,41 +23,33 @@ window.addEventListener('load', async () => {
   // Dispatch a fake `resize` event to cause the `canvas` to fit the viewport
   window.dispatchEvent(new Event('resize'));
 
+  const scenes = {
+    square: renderSquareScene,
+    cube: renderCubeScene,
+    cubeTextured: renderCubeTexturedScene,
+    cubeRecessed: renderCubeRecessedScene,
+    pipe: renderPipeScene,
+    cubeRounded: renderCubeRoundedScene,
+  };
+
+  const defaultScene = 'pipe';
+
   const sceneSelect = document.getElementById('sceneSelect');
-  if (window.location.search) {
-    sceneSelect.value = window.location.search.substring(1);
+  for (let sceneName in scenes) {
+    const sceneOption = document.createElement('option');
+    sceneOption.textContent = sceneName;
+    sceneSelect.append(sceneOption);
   }
 
-  switch (sceneSelect.value) {
-    case 'square': {
-      renderSquareScene(context);
-      break;
-    }
-    case 'cube': {
-      renderCubeScene(context);
-      break;
-    }
-    case 'cube-textured': {
-      renderCubeTexturedScene(context);
-      break;
-    }
-    case 'cube-recessed': {
-      renderCubeRecessedScene(context);
-      break;
-    }
-    case 'pipe': {
-      renderPipeScene(context);
-      break;
-    }
-    case 'cube-rounded': {
-      renderCubeRoundedScene(context);
-      break;
-    }
-    default: {
-      alert(`The scene ${sceneSelect.value} was not found`);
-      window.location.search = 'cube-textured';
-    }
+  sceneSelect.value = window.location.search ? window.location.search.substring(1) : defaultScene;
+
+  const scene = scenes[sceneSelect.value];
+  if (!scene) {
+    alert(`The scene ${sceneSelect.value} was not found`);
+    window.location.search = 'cube-textured';
   }
+
+  scene(context);
 
   sceneSelect.addEventListener('change', () => window.location.search = sceneSelect.value);
 });
