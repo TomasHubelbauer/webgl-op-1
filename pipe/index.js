@@ -59,7 +59,6 @@ export default async function renderPipeScene(/** @type {WebGLRenderingContext} 
     context.clearColor(0, 0, 0, 1);
     context.clearDepth(1);
     context.enable(context.DEPTH_TEST);
-    context.depthFunc(context.LEQUAL);
     context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
 
     context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);

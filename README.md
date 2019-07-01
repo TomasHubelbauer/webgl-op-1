@@ -6,7 +6,6 @@ practice WebGL programming in a goal-driven way.
 - Query `DELETE_STATUS` when deleting shaders and programs that failed to compile/link
 - Make use of `validateProgram` and query `VALIDATE_STATUS`
 - Query `ATTACHED_SHADERS` when attaching a shader to a program
-- Find out what the default `depthFunc` is - maybe I don't need to pass it?
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
 - Create a demo of a cube with rounded corners with one radius on vertical edges
