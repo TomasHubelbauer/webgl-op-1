@@ -38,11 +38,36 @@ export default async function renderSquareScene(/** @type {WebGLRenderingContext
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
-  context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateSquare()), context.STATIC_DRAW);
+  context.bufferData(
+    context.ARRAY_BUFFER,
+    new Float32Array([
+      // Top left
+      -1, 1,
+
+      // Top right
+      1, 1,
+
+      // Bottom left
+      -1, -1,
+
+      // Bottom right
+      1, -1
+    ]),
+    context.STATIC_DRAW
+  );
 
   const colorBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-  context.bufferData(context.ARRAY_BUFFER, new Float32Array([...white, ...red, ...green, ...blue]), context.STATIC_DRAW);
+  context.bufferData(
+    context.ARRAY_BUFFER,
+    new Float32Array([
+      ...white,
+      ...red,
+      ...green,
+      ...blue
+    ]),
+    context.STATIC_DRAW
+  );
 
   let lastTimestamp = performance.now();
   let rotationRadians = 0;

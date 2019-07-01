@@ -38,7 +38,47 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
 
   const positionBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
-  context.bufferData(context.ARRAY_BUFFER, new Float32Array(tesselateCube()), context.STATIC_DRAW);
+  context.bufferData(
+    context.ARRAY_BUFFER,
+    new Float32Array([
+      // Front face
+      -1, -1, 1,
+      1, -1, 1,
+      1, 1, 1,
+      -1, 1, 1,
+
+      // Back face
+      -1, -1, -1,
+      -1, 1, -1,
+      1, 1, -1,
+      1, -1, -1,
+
+      // Top face
+      -1, 1, -1,
+      -1, 1, 1,
+      1, 1, 1,
+      1, 1, -1,
+
+      // Bottom face
+      -1, -1, -1,
+      1, -1, -1,
+      1, -1, 1,
+      -1, -1, 1,
+
+      // Right face
+      1, -1, -1,
+      1, 1, -1,
+      1, 1, 1,
+      1, -1, 1,
+
+      // Left face
+      -1, -1, -1,
+      -1, -1, 1,
+      -1, 1, 1,
+      -1, 1, -1,
+    ]),
+    context.STATIC_DRAW
+  );
 
   const colorBuffer = context.createBuffer();
   context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
