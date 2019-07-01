@@ -6,7 +6,6 @@ practice WebGL programming in a goal-driven way.
 - Query `DELETE_STATUS` when deleting shaders and programs that failed to compile/link
 - Make use of `validateProgram` and query `VALIDATE_STATUS`
 - Query `ATTACHED_SHADERS` when attaching a shader to a program
-- Find out what the `MAX_TEXTURE_IMAGE_UNITS` is for Chrome and mobile Safari
 - Find out what the default `depthFunc` is - maybe I don't need to pass it?
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
@@ -47,3 +46,17 @@ practice WebGL programming in a goal-driven way.
 - Find out what `vertexAttribPointer`'s `normalize` argument is for (clamping?)
 - Consider designing (some of) the internals as well so that I could make an
   exploded view of the device
+
+---
+
+```js
+const context = document.createElement('canvas').getContext('webgl');
+context.getParameter(context.MAX_TEXTURE_IMAGE_UNITS);
+```
+
+| Browser | Max Texture Image Units |
+|-|-|
+| Firefox | 16 |
+| Chrome | 16 |
+| Edge | 16 |
+| Safari | ? |
