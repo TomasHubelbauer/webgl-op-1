@@ -125,7 +125,7 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
     context.uniformMatrix4fv(vertexShaderProjectionMatrixUniformLocation, false, projectionMatrix);
 
     const modelViewMatrix = mat4.create();
-    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -6]);
+    mat4.translate(modelViewMatrix, modelViewMatrix, [0, .2, -2.5]);
     mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 1, /* Y axis */ 1 /* Z axis */]);
 
     context.uniformMatrix4fv(vertexShaderModelViewMatrixUniformLocation, false, modelViewMatrix);
