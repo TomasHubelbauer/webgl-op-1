@@ -1,5 +1,3 @@
-import tesselateCube from './tesselateCube.js';
-
 export default async function renderCubeTexturedScene(/** @type {WebGLRenderingContext} */ context) {
   const vertexPromise = fetch('cube-textured/vertex.glsl').then(response => response.text());
   const fragmentPromise = fetch('cube-textured/fragment.glsl').then(response => response.text());

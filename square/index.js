@@ -1,4 +1,3 @@
-import tesselateSquare from './tesselateSquare.js';
 import { white, red, green, blue } from '../colors.js';
 
 export default async function renderSquareScene(/** @type {WebGLRenderingContext} */ context) {

@@ -1,4 +1,3 @@
-import tesselateCube from './tesselateCube.js';
 import { white, red, green, blue, yellow, purple } from '../colors.js';
 
 export default async function renderCubeScene(/** @type {WebGLRenderingContext} */ context) {
