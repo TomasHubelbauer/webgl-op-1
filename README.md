@@ -8,8 +8,7 @@ practice WebGL programming in a goal-driven way.
 - Query `ATTACHED_SHADERS` when attaching a shader to a program
 - Find out what the `MAX_TEXTURE_IMAGE_UNITS` is for Chrome and mobile Safari
 - Find out what the default `depthFunc` is - maybe I don't need to pass it?
-- Find out what frame and render buffers are - can be used instead in the droste demo?
-  - https://stackoverflow.com/q/2213030/2715716
+- Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
 - Create a demo of a cube with rounded corners with one radius on vertical edges
   and another on horizontal edges
