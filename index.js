@@ -46,7 +46,7 @@ window.addEventListener('load', async () => {
   const scene = scenes[sceneSelect.value];
   if (!scene) {
     alert(`The scene ${sceneSelect.value} was not found`);
-    window.location.search = 'cube-textured';
+    window.location.search = defaultScene;
   }
 
   scene(context);
