@@ -6,19 +6,22 @@ import renderPipeScene from './pipe/index.js';
 import renderCubeRoundedScene from './cube-rounded/index.js';
 
 window.addEventListener('load', async () => {
+  /** @type {HTMLCanvasElement} */
   const sceneCanvas = document.getElementById('sceneCanvas');
+
+  const context = sceneCanvas.getContext('webgl', { preserveDrawingBuffer: true /* Enable right-click and save image */ });
 
   window.addEventListener('resize', () => {
     // Make the canvas the size of the viewport
     sceneCanvas.width = sceneCanvas.clientWidth;
     sceneCanvas.height = sceneCanvas.clientHeight;
+
+    // Update the context viewport dimensions to match the new canvas dimensions
+    context.viewport(0, 0, sceneCanvas.width, sceneCanvas.height);
   });
 
   // Dispatch a fake `resize` event to cause the `canvas` to fit the viewport
   window.dispatchEvent(new Event('resize'));
-
-  // Note that the context doesn't change with the canvas size so we do not need to refresh it
-  const context = sceneCanvas.getContext('webgl', { preserveDrawingBuffer: true /* Enable right-click and save image */ });
 
   const sceneSelect = document.getElementById('sceneSelect');
   if (window.location.search) {

@@ -3,9 +3,6 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
-- Query `VIEWPORT` to see if the viewport changes if the `canvas` size changes
-  even though `getContext` always returning the same context instace and the
-  render being squashed indicates the new dimensions are not being picked up
 - Query `DELETE_STATUS` when deleting shaders and programs that failed to compile/link
 - Make use of `validateProgram` and query `VALIDATE_STATUS`
 - Query `ATTACHED_SHADERS` when attaching a shader to a program
@@ -46,9 +43,6 @@ practice WebGL programming in a goal-driven way.
   the model
   - Not sure if the OP-1 can receive MIDI as input so that the note would play
     through it and not the browser, but the keyboard might be able to do this
-- Add an OP-1 favicon for the site
-- Figure out why the rendering breaks when window resizes even though the context
-  gets refreshed
 - Replace the matrix libray with in-tree routines to keep the thing flat and
   straightforward to read and understand
 - Find out what `vertexAttribPointer`'s `normalize` argument is for (clamping?)
