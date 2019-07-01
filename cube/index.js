@@ -70,7 +70,7 @@ export default async function renderCubeScene(/** @type {WebGLRenderingContext} 
     context.STATIC_DRAW
   );
 
-  let lastTimestamp;
+  let lastTimestamp = performance.now();
   let rotationRadians = 0;
 
   function render(timestamp) {
