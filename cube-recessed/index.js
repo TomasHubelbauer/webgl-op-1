@@ -49,7 +49,7 @@ export default async function renderCubeRecessedScene(/** @type {WebGLRenderingC
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
   context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), context.STATIC_DRAW);
 
-  let lastTimestamp;
+  let lastTimestamp = performance.now();
   let rotationRadians = 0;
 
   function render(timestamp) {
