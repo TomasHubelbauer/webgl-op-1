@@ -59,7 +59,7 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
     context.STATIC_DRAW
   );
 
-  let lastTimestamp;
+  let lastTimestamp = performance.now();
   let rotationRadians = 0;
 
   const textureCanvas = document.createElement('canvas');
