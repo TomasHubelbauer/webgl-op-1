@@ -42,6 +42,7 @@ window.addEventListener('load', async () => {
   }
 
   sceneSelect.value = window.location.search ? window.location.search.substring(1) : defaultScene;
+  sceneSelect.addEventListener('change', () => window.location.search = sceneSelect.value);
 
   const scene = scenes[sceneSelect.value];
   if (!scene) {
@@ -50,6 +51,4 @@ window.addEventListener('load', async () => {
   }
 
   scene(context);
-
-  sceneSelect.addEventListener('change', () => window.location.search = sceneSelect.value);
 });
