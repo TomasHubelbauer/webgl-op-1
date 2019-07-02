@@ -1,5 +1,5 @@
 import setupProgram from '../setupProgram.js';
-import { white, red, green } from '../colors.js';
+import { white, red } from '../colors.js';
 
 export default async function renderCubeRoundedScene(/** @type {WebGLRenderingContext} */ context) {
   const {
@@ -49,10 +49,10 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
     }
   }
 
-  const width = 1;
-  const height = .1;
-  const depth = .35;
-  const radius = .05;
+  const width = 28.2;
+  const height = 1.35;
+  const depth = 10.2;
+  const radius = .3;
   const steps = 6;
   addFace([-(width - radius), -height, depth], [width - radius, -height, depth], [width - radius, height, depth], [-(width - radius), height, depth], red);
   addFace([-width, -height, depth - radius], [-width, -height, -(depth - radius)], [-width, height, -(depth - radius)], [-width, height, depth - radius], white);
@@ -119,13 +119,13 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
       45 * Math.PI / 180, // 45 ° degree field of view in radians
       context.canvas.width / context.canvas.height, // The canvas aspect ratio
       .1, // Nearest distance the camera will render
-      100, // Farthest distance the camera will render
+      1000, // Farthest distance the camera will render
     );
 
     context.uniformMatrix4fv(vertexShaderProjectionMatrixUniformLocation, false, projectionMatrix);
 
     const modelViewMatrix = mat4.create();
-    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -4]);
+    mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -100]);
     mat4.rotate(modelViewMatrix, modelViewMatrix, rotationRadians, [0, 1, /* Y axis */ 1 /* Z axis */]);
 
     context.uniformMatrix4fv(vertexShaderModelViewMatrixUniformLocation, false, modelViewMatrix);
