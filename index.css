@@ -9,13 +9,14 @@ body {
 }
 
 #sceneCanvas {
-  /* Prevent Safari auto-zoom on focus which happens for font sizes < 16px */
-  font-size: 16px;
   height: 100%;
   width: 100%;
 }
 
 #sceneSelect {
+  /* Prevent Safari auto-zoom on focus which happens for font sizes < 16px */
+  font-size: 16px;
+  
   position: absolute;
   left: 10px;
   top: 10px;
