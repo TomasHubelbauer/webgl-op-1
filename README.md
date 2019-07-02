@@ -3,6 +3,10 @@
 I attempt to design a model of Teenage Engineering's OP-1 in WebGL in order to
 practice WebGL programming in a goal-driven way.
 
+![](op-1.png)
+
+Image credit: https://en.wikipedia.org/wiki/File:OP-1_Sequencer_Concept.png
+
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
 - Add front and back faces to the cube with rounded vertical edge axes
