@@ -7,6 +7,7 @@ practice WebGL programming in a goal-driven way.
 
 Image credit: https://en.wikipedia.org/wiki/File:OP-1_Sequencer_Concept.png
 
+- Set up basic lighting in the OP-1 scene
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a demo of a cube with rounded corners
 - Add front and back faces to the cube with rounded vertical edge axes
