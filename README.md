@@ -31,7 +31,7 @@ Image credit: https://en.wikipedia.org/wiki/File:OP-1_Sequencer_Concept.png
   - I/O cover
   - PCB (for exploded view)
 
-- Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
+- Improve the Droste demo based on https://stackoverflow.com/q/56841018/2715716
 - Create a scene with a WebGL portal in it (does WebGL support non-Euclidean?)
 - Render the OP-1 text on the side of the keyboard
   - https://stackoverflow.com/a/35027166/2715716
