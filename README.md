@@ -7,6 +7,9 @@ practice WebGL programming in a goal-driven way.
 
 Image credit: https://en.wikipedia.org/wiki/File:OP-1_Sequencer_Concept.png
 
+There is alsoa [related project](https://github.com/TomasHubelbauer/three-op-1)
+which uses ThreeJS.
+
 - Set up basic lighting in the OP-1 scene:
   https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Lighting_in_WebGL
 - Figure out how to allow rotating using the mouse and scaling using the wheel
