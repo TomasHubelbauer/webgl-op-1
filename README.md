@@ -18,6 +18,18 @@ Image credit: https://en.wikipedia.org/wiki/File:OP-1_Sequencer_Concept.png
   (Probably need to pass this information to the shared and go with color/UV depending)
 - Adjust the recession location and size on the top face to match the keyboard
 - Hook up WebMIDI and depress the OP-1 keys based on the MIDI keys sent in
+- Model the standalone parts as separate meshes:
+  - Case (recession for TE logo, screw holes, LED holes and mic holes, OP-1 text)
+  - White key
+  - Black keys
+  - Control key
+  - Encoder
+  - Display
+  - Volume knob
+  - Speaker
+  - Stand
+  - I/O cover
+  - PCB (for exploded view)
 
 - Find out if I can speed up the Droste demo: https://stackoverflow.com/q/56841018/2715716
 - Create a scene with a WebGL portal in it (does WebGL support non-Euclidean?)
