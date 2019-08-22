@@ -66,7 +66,7 @@ context.getParameter(context.MAX_TEXTURE_IMAGE_UNITS);
 | Firefox | 16 |
 | Chrome | 16 |
 | Edge | 16 |
-| Safari | ? |
+| Safari | 16 |
 
 ---
 
