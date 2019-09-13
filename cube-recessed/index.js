@@ -31,7 +31,7 @@ export default async function renderCubeRecessedScene(/** @type {WebGLRenderingC
   let lastTimestamp = performance.now();
   let rotationRadians = 0;
 
-  function render(timestamp) {
+  void function render(timestamp) {
     document.title = Math.round(1000 / (timestamp - lastTimestamp)) + ' FPS';
 
     // Clear everything
@@ -96,7 +96,5 @@ export default async function renderCubeRecessedScene(/** @type {WebGLRenderingC
     // Animate the rotation
     rotationRadians += .025;
     window.requestAnimationFrame(render);
-  }
-
-  render();
+  }()
 }

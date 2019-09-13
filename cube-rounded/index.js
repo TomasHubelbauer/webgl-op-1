@@ -156,7 +156,7 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
 
   let lastTimestamp = performance.now();
 
-  function render(timestamp) {
+  void function render(timestamp) {
     document.title = Math.round(1000 / (timestamp - lastTimestamp)) + ' FPS';
 
     // Clear everything
@@ -207,7 +207,5 @@ export default async function renderCubeRoundedScene(/** @type {WebGLRenderingCo
     lastTimestamp = timestamp;
 
     window.requestAnimationFrame(render);
-  }
-
-  render();
+  }()
 }

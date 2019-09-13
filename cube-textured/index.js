@@ -100,7 +100,7 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
 
   const textureContext = textureCanvas.getContext('2d');
 
-  function render(timestamp) {
+  void function render(timestamp) {
     document.title = Math.round(1000 / (timestamp - lastTimestamp)) + ' FPS';
 
     for (let x = 0; x < textureCanvas.width / 8; x++) {
@@ -191,7 +191,5 @@ export default async function renderCubeTexturedScene(/** @type {WebGLRenderingC
     // Animate the rotation
     rotationRadians += .025;
     window.requestAnimationFrame(render);
-  }
-
-  render();
+  }()
 }

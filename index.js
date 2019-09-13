@@ -4,6 +4,7 @@ import renderCubeTexturedScene from './cube-textured/index.js';
 import renderCubeRecessedScene from './cube-recessed/index.js';
 import renderPipeScene from './pipe/index.js';
 import renderCubeRoundedScene from './cube-rounded/index.js';
+import renderCubeShadedScene from './cube-shaded/index.js';
 
 window.addEventListener('load', async () => {
   /** @type {HTMLCanvasElement} */
@@ -30,9 +31,10 @@ window.addEventListener('load', async () => {
     cubeRecessed: renderCubeRecessedScene,
     pipe: renderPipeScene,
     cubeRounded: renderCubeRoundedScene,
+    cubeShaded: renderCubeShadedScene,
   };
 
-  const defaultScene = 'pipe';
+  const defaultScene = 'cubeShaded';
 
   const sceneSelect = document.getElementById('sceneSelect');
   for (let sceneName in scenes) {
